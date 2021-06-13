@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View , KeyboardAvoidingView , ToastAndroid} from 'react-native';
 import db from '../config';
 import firebase from 'firebase'
 
@@ -15,20 +15,24 @@ export default class WriteStory extends Component {
     }
 
     updateStory = async() => {
-        console.log('adding story')
-
         db.collection("story").add({
             'storyTitle' : this.state.storyName,
             'storyAuthor': this.state.storyAuthor,
             'story' : this.state.story
         })
 
-        console.log('story added')
+        this.setState({
+            story: '',
+            storyAuthor: "",
+            storyName:'',
+        })
+
+        ToastAndroid.show("Your Story Has Been Submitted", ToastAndroid.SHORT)
     }
 
     render() {
         return(
-            <View style={styles.container}>
+            <KeyboardAvoidingView style={styles.container}>
                 <TextInput
                     placeholder= "Story Title"
                     style={styles.namBx}
@@ -67,7 +71,7 @@ export default class WriteStory extends Component {
                     <Text style={styles.text}>Submit</Text>
                 </TouchableOpacity>
 
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }
@@ -81,16 +85,15 @@ const styles = StyleSheet.create({
     },
 
     bn: {
-        width: '20%',
-        height: '10%',
         backgroundColor: 'yellow',
         borderWidth: 2,
         justifyContent: 'center',
         alignItems: 'center',
+        width: '80%'
     },
 
     text: {
-        fontSize: 35,
+        fontSize: 20,
         textAlign: 'center',
         fontWeight: 'bold',
         padding: 15,
@@ -101,20 +104,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         textAlign: 'center',
         fontSize: 24,
-        width : '80%',
         margin: 30,
         borderWidth: 2,
-        height: '20%',
+        width: '80%'
     },
 
     authBx : {
         justifyContent: 'center',
         textAlign: 'center',
         fontSize: 24,
-        width : '80%',
         margin: 50,
         borderWidth: 2,
-        height: '20%',
+        width: '80%'
     },
 
     writeBx : {
@@ -122,9 +123,8 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         alignItems: 'center',
         fontSize: 24,
-        width : '80%',
         margin: 30,
         borderWidth: 2,
-        height: '50%',
+        width: '80%'
     }
   });
